@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>
+        <a href="{% url 'create_job' %}">Add a New Job</a>
+    </p>
+    <h2>Admin Dashboard - Registered Users</h2>
+    <nav>
+        <a href="{% url 'admin_dashboard' %}?section=user_details">User Details</a>
+        <a href="{% url 'admin_dashboard' %}?section=applicant_details">Applicant Details</a>
+    </nav>
+    {% if section == 'user_details' %}
+      <h3>User Details</h3>
+      <table border="1">
+       
+            <tr>
+                <th>Username</th>
+                <th>Domain</th>
+                <th>Experience Level</th>
+               
+            </tr>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.domain }}</td>
+                <td>{{ user.is_experienced|yesno:"Experienced,Fresher" }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% elif section == 'applicant_details' %}         
+        <h3>Applicant Details</h3>
+        <table>
+            <tr>
+                <th>Username</th>
+                <th>Job</th>
+                <th>Registered At</th>
+            </tr>
+            {% for registration in registered_users %}
+            <tr>
+                <td>{{ registration.user.username }}</td>
+                <td>{{ registration.job.role }} at {{ registration.job.company_name }}</td>
+                <td>{{ registration.registered_at }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+    
+</body>
+
+
+</html>

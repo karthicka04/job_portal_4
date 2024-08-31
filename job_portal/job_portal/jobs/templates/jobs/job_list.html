@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Listings</title>
+</head>
+<body>
+    <h2>Job Listings</h2>
+
+    <!-- Display messages -->
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li class="message {{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <ul>
+        {% for job in jobs %}
+        <li>
+            <h3>{{ job.company_name }}</h3>
+            <p>{{ job.location }}</p>
+            <p>{{ job.role }}</p>
+            <p>{{ job.average_package }}</p>
+            <form method="POST" action="{% url 'register_job_view' %}">
+                {% csrf_token %}
+                <input type="hidden" name="job_id" value="{{ job.id }}">
+                <button type="submit">Register</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+
+<style>
+    .message.success {
+    color: green;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.message.warning {
+    color: orange;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+</style>
+
+</html>
